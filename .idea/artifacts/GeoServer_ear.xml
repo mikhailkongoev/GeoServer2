@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="ear" name="GeoServer:ear">
+    <output-path>$PROJECT_DIR$/out/artifacts/GeoServer_ear</output-path>
+    <root id="archive" name="GeoServer_ear.ear">
+      <element id="artifact" artifact-name="GeoServer:ear exploded" />
+      <element id="artifact" artifact-name="client:war" />
+      <element id="artifact" artifact-name="core:ejb" />
+      <element id="directory" name="lib">
+        <element id="library" level="project" name="Hibernate 5.3.2-5.3.2" />
+        <element id="library" level="project" name="JPA 2.0-2.0" />
+        <element id="library" level="application_server_libraries" name="GlassFish 4.1.2 - CDI: Contexts and Dependency Injection" />
+        <element id="library" level="project" name="com.owlike:genson:0.99" />
+      </element>
+    </root>
+  </artifact>
+</component>

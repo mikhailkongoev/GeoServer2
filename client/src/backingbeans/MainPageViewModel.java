@@ -1,13 +1,11 @@
 package backingbeans;
 
 import model.interfaces.ESearchLocal;
-import model.storage.ESearchResult;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,40 +18,42 @@ public class MainPageViewModel {
 	@Inject
 	private ESearchLocal eSearchLocal;
 
-	private ESearchResult searchResult;
+	private List<Long> ids;
 
-	private List<String> mySmallList;
-	private String hello;
+	private String query;
+
+	private String result;
+
 
 	@PostConstruct
 	private void init() {
-		mySmallList = Arrays.asList("First", "Second", "Third", "Fourth", "Last");
-		hello = eSearchLocal.sendQuery("gds",
-				"\"gsm\"[Entry Type] AND \"Homo sapiens\"[Organism] AND ChIP-Seq[All Fields] AND bed[Supplementary Files]")
-				.getQueryTranslation();
+		ids = eSearchLocal.findIds("gds",
+				"\"gsm\"[Entry Type] AND \"Homo sapiens\"[Organism] AND ChIP-Seq[All Fields] AND bed[Supplementary Files]");
+
+		eSearchLocal.findAccessionsBuIds(ids);
 	}
 
-	public List<String> getMySmallList() {
-		return mySmallList;
+	public List<Long> getIds() {
+		return ids;
 	}
 
-	public void setMySmallList(List<String> mySmallList) {
-		this.mySmallList = mySmallList;
+	public void setIds(List<Long> ids) {
+		this.ids = ids;
 	}
 
-	public String getHello() {
-		return hello;
+	public String getQuery() {
+		return query;
 	}
 
-	public void setHello(String hello) {
-		this.hello = hello;
+	public void setQuery(String query) {
+		this.query = query;
 	}
 
-	public ESearchResult getSearchResult() {
-		return searchResult;
+	public String getResult() {
+		return result;
 	}
 
-	public void setSearchResult(ESearchResult searchResult) {
-		this.searchResult = searchResult;
+	public void setResult(String result) {
+		this.result = result;
 	}
 }

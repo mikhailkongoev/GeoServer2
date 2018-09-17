@@ -2,12 +2,14 @@ package repos;
 
 import model.interfaces.ESearchLocal;
 import model.storage.ESearchResult;
-import org.glassfish.jersey.client.ClientResponse;
 
 import javax.ejb.Stateless;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author m.kongoev
@@ -21,15 +23,31 @@ public class ESearchImpl implements ESearchLocal {
 	private Client client = ClientBuilder.newClient();
 
 	@Override
-	public ESearchResult sendQuery(String db, String term) {
+	public List<Long> findIds(String db, String term) {
 		ESearchResult response =  client
 				.target(REST_URI)
 				.path("esearch.fcgi")
-				.queryParam("db", db)
+				.queryParam("db", "gds")
 				.queryParam("term", term)
 				.request(MediaType.APPLICATION_XML)
 				.get(ESearchResult.class);
 
-		return response;
+		return response.getIdList().stream().map(ESearchResult.Id::getId).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<String> findAccessionsBuIds(List<Long> ids) {
+		List<String> res = new ArrayList<>();
+		String response =  client
+				.target(REST_URI)
+				.path("efetch.fcgi")
+				.queryParam("db", "gds")
+				.queryParam("rettype", "xml")
+				.queryParam("id", ids)
+				.request(MediaType.APPLICATION_XML)
+				.get().readEntity(String.class);
+
+		res.add(response);
+		return res;
 	}
 }

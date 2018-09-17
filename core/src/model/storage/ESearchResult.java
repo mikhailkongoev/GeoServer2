@@ -1,21 +1,27 @@
 package model.storage;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author m.kongoev
  */
 @XmlRootElement(name = "eSearchResult")
-public class ESearchResult {
+@XmlAccessorType(XmlAccessType.PROPERTY)
+public class ESearchResult implements Serializable {
+	private static final long serialVersionUID = -2855476125533962101L;
+
 	private long count;
 
 	private long retMax;
 
 	private long retStart;
 
-	private List<Long> idList;
+	private List<Id> idList;
 
 	private TranslationSet translationSet;
 
@@ -23,7 +29,7 @@ public class ESearchResult {
 
 	private String queryTranslation;
 
-	@XmlElement
+	@XmlElement(name = "Count")
 	public long getCount() {
 		return count;
 	}
@@ -32,7 +38,7 @@ public class ESearchResult {
 		this.count = count;
 	}
 
-	@XmlElement
+	@XmlElement(name = "RetMax")
 	public long getRetMax() {
 		return retMax;
 	}
@@ -41,7 +47,7 @@ public class ESearchResult {
 		this.retMax = retMax;
 	}
 
-	@XmlElement
+	@XmlElement(name = "RetStart")
 	public long getRetStart() {
 		return retStart;
 	}
@@ -50,16 +56,16 @@ public class ESearchResult {
 		this.retStart = retStart;
 	}
 
-	@XmlElement
-	public List<Long> getIdList() {
+	@XmlElement(name = "IdList")
+	public List<Id> getIdList() {
 		return idList;
 	}
 
-	public void setIdList(List<Long> idList) {
+	public void setIdList(List<Id> idList) {
 		this.idList = idList;
 	}
 
-	@XmlElement
+	@XmlElement(name = "TranslationSet")
 	public TranslationSet getTranslationSet() {
 		return translationSet;
 	}
@@ -68,7 +74,7 @@ public class ESearchResult {
 		this.translationSet = translationSet;
 	}
 
-	@XmlElement
+	@XmlElement(name = "TranslationStack")
 	public TranslationStack getTranslationStack() {
 		return translationStack;
 	}
@@ -77,7 +83,7 @@ public class ESearchResult {
 		this.translationStack = translationStack;
 	}
 
-	@XmlElement
+	@XmlElement(name = "QueryTranslation")
 	public String getQueryTranslation() {
 		return queryTranslation;
 	}
@@ -86,15 +92,28 @@ public class ESearchResult {
 		this.queryTranslation = queryTranslation;
 	}
 
+	public final static class Id {
+		private Long id;
+
+		@XmlElement(name = "Id")
+		public Long getId() {
+			return id;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+	}
+
 	public final static class TranslationSet {
-		private Translation translation;
+		private List<Translation> translation;
 
 		public final static class Translation {
 			private String from;
 
 			private String to;
 
-			@XmlElement
+			@XmlElement(name = "From")
 			public String getFrom() {
 				return from;
 			}
@@ -103,7 +122,7 @@ public class ESearchResult {
 				this.from = from;
 			}
 
-			@XmlElement
+			@XmlElement(name = "To")
 			public String getTo() {
 				return to;
 			}
@@ -113,18 +132,20 @@ public class ESearchResult {
 			}
 		}
 
-		@XmlElement
-		public Translation getTranslation() {
+		@XmlElement(name = "Translation")
+		public List<Translation> getTranslation() {
 			return translation;
 		}
 
-		public void setTranslation(Translation translation) {
+		public void setTranslation(List<Translation> translation) {
 			this.translation = translation;
 		}
 	}
 
 	public final static class TranslationStack {
 		private List<TermSet> termSetList;
+
+		private List<String> op;
 
 		public final static class TermSet {
 			private String term;
@@ -135,7 +156,7 @@ public class ESearchResult {
 
 			private String explode;
 
-			@XmlElement
+			@XmlElement(name = "Term")
 			public String getTerm() {
 				return term;
 			}
@@ -144,7 +165,7 @@ public class ESearchResult {
 				this.term = term;
 			}
 
-			@XmlElement
+			@XmlElement(name = "Field")
 			public String getField() {
 				return field;
 			}
@@ -153,7 +174,7 @@ public class ESearchResult {
 				this.field = field;
 			}
 
-			@XmlElement
+			@XmlElement(name = "Count")
 			public long getCount() {
 				return count;
 			}
@@ -162,7 +183,7 @@ public class ESearchResult {
 				this.count = count;
 			}
 
-			@XmlElement
+			@XmlElement(name = "Explode")
 			public String getExplode() {
 				return explode;
 			}
@@ -172,13 +193,22 @@ public class ESearchResult {
 			}
 		}
 
-		@XmlElement
+		@XmlElement(name = "TermSet")
 		public List<TermSet> getTermSetList() {
 			return termSetList;
 		}
 
 		public void setTermSetList(List<TermSet> termSetList) {
 			this.termSetList = termSetList;
+		}
+
+		@XmlElement(name = "OP")
+		public List<String> getOp() {
+			return op;
+		}
+
+		public void setOp(List<String> op) {
+			this.op = op;
 		}
 	}
 }

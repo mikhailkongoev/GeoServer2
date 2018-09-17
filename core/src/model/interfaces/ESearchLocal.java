@@ -1,10 +1,11 @@
 package model.interfaces;
 
-import model.storage.ESearchResult;
-
 import javax.ejb.Local;
+import java.util.List;
 
 @Local
 public interface ESearchLocal {
-	ESearchResult sendQuery(String db, String term);
+	List<Long> findIds(String db, String term);
+
+	List<String> findAccessionsBuIds(List<Long> ids);
 }
